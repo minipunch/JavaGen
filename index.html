@@ -79,11 +79,52 @@
           <input type="button" name="name" value="Continue" style="display: inline-block;" ng-click="gotoResult()">
         </form>
 
-
-        <pre id="result" ng-show="finished">
-          <p>/* Chapter No. {{ chapter }} Program No. {{ program }}<br>File Name: &#9;&#9; {{ filename }}<br>Author: &#9;&#9;&#9; {{ author }}<br>Date Modified: <br><br>Problem Statement: {{ problemStatement }}<br><br>Overall Plan:<br></p><span ng-repeat="plan in overallPlan track by $index">{{$index +1}}: {{plan}}<br></span>
-          <br>Classes and Purposes:<br>main class - {{classPurpose}}<br><br>DATA DICTIONARY:<br>---- ----------<table><tr><td>NAME</td><td>TYPE</td><td>VALUE/RANGE</td><td>DESCRIPTION</td></tr><tr><td>=====&#9;&#9;&#9;</td><td>====&#9;</td><td>============&#9;</td><td>===========</td></tr><tr ng-repeat="variable in dataDictionary | orderBy: 'name'"><td>{{ variable.name }}</td><td>{{ variable.typeDictionary }}</td><td>{{ variable.valueRange }}</td><td>{{ variable.description }}</td></tr></table><br>*/
-        </pre>
+  <!-- CARRIAGE RETURN CODE: &#13;&#10; -->
+        <code id="result" ng-show="finished">
+          <p>/* Chapter No. {{ chapter }} Program No. {{ program }}<br>
+            <table>
+              <tr>
+                <td>File Name: &nbsp;&nbsp;</td>
+                <td>{{ filename }}</td>
+              </tr>
+              <tr>
+                <td>Author: &nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>{{ author }}</td>
+              </tr>
+              <tr>
+                <td>Date Modified:&nbsp;</td>
+                <td>test</td>
+              </tr>
+            </table><br>
+            Problem Statement: {{ problemStatement }}<br><br>
+            Overall Plan:<br>
+          </p>
+            <span ng-repeat="plan in overallPlan track by $index">{{$index +1}}: {{plan}}<br></span>
+          <br>Classes and Purposes:<br>
+          main class - {{classPurpose}}<br><br>
+          DATA DICTIONARY:<br>---- ----------
+          <table>
+            <tr>
+              <td>NAME&nbsp;</td>
+              <td>TYPE&nbsp;</td>
+              <td>VALUE/RANGE&nbsp;</td>
+              <td>DESCRIPTION</td>
+            </tr>
+            <tr>
+              <td>=====&nbsp;</td>
+              <td>====&nbsp;</td>
+              <td>============&nbsp;</td>
+              <td>===========</td>
+            </tr>
+            <tr ng-repeat="variable in dataDictionary | orderBy: 'name'">
+              <td>{{ variable.name }}</td>
+              <td>{{ variable.typeDictionary }}</td>
+              <td>{{ variable.valueRange }}</td>
+              <td>{{ variable.description }}</td>
+            </tr>
+          </table><br>
+          */
+        </code>
 
 
 
