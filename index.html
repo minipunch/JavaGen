@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Mini's Java Gen</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="assets/img/favicons/favicon.ico">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800italic' rel='stylesheet' type='text/css'>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+  <script src="https://use.fontawesome.com/f09e35dd59.js"></script>
+  <script src="assets/js/jquery-3.0.0.min.js"></script>
+  <script src="assets/js/main.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/animate.css" />
+</head>
+  <body ng-app="javaGen"  ng-controller="formCtrl">
+      <header class="center-me">
+        <h1>JavaGen</h1>
+      </header>
+      <section>
+        <p ng-show="stepCount < 5" class="center-me" style="padding: 2em 0;">({{stepCount}}/4) Enter details of the style sheet below: </p>
+        <div class="wrapper">
+
+        <form id="form1" class="inputStyle1">
+          <label for="chapter">Chapter #: </label>
+          <input type="text" name="chapter" id="chapterInput">
+
+          <label for="program">Program #: </label>
+          <input type="text" name="program">
+
+          <label for="filename">Filename: </label>
+          <input type="text" name="filename">
+
+          <label for="author">Author: </label>
+          <input type="text" name="author">
+
+          <label for="problem">Problem statement: </label>
+          <input type="text" name="problemStatement">
+
+          <input type="button" name="name" value="Next" style="margin: 2em 0;" ng-click="form1Submit()">
+        </form>
+
+        <form action="" id="overallPlan" class="inputStyle1">
+          Overall Plan
+          <br><br>
+          <label for="plan1">1: </label>
+         <input type="text" name="plan1" id="plan1-input">
+          <span id="plus-sign" ng-click="addStepToOverallPlan()"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></span>
+
+          <input type="button" name="back" value="Back" style="display: inline-block;" ng-click="overallPlanBack()">
+          <input type="button" name="name" value="Continue" ng-click="overallPlanSubmit()" style="display: inline-block;">
+        </form>
+
+        <form id="classes" class="inputStyle1">
+          Classes &amp; Purposes
+          <br><br>
+          <label for="classPurpose1">Main() - purpose: </label>
+          <input type="text" name="classPurpose1">
+
+          <input type="button" name="back" value="Back" style="display: inline-block;" ng-click="classesBack()">
+          <input type="button" name="name" value="Continue" style="display: inline-block;" ng-click="classesSubmit()">
+        </form>
+
+        <form action="" id="dataDictionary" class="inputStyle1">
+          Variables:
+          <br><br>
+          <label for="nameDictionary">Name: </label>
+          <input type="text" name="nameDictionary">
+          <label for="type">Type: </label>
+          <input type="text" name="type">
+          <label for="valueRange">Value/Range: </label>
+          <input type="text" name="valueRange">
+          <label for="descriptionDictionary">Description: </label>
+          <textarea name="descriptionDictionary" id="description" cols="30" rows="10"></textarea>
+
+          <input type="button" name="back" value="Back" style="display: inline-block;" ng-click="dataDictionaryBack()">
+          <input type="button" name="name" value="Add" style="display: inline-block;" ng-click="dataDictionaryPush()">
+          <input type="button" name="name" value="Continue" style="display: inline-block;" ng-click="gotoResult()">
+        </form>
+
+
+        <pre id="result" ng-show="finished">
+          <p>/* Chapter No. {{ chapter }} Program No. {{ program }}<br>File Name: &#9;&#9; {{ filename }}<br>Author: &#9;&#9;&#9; {{ author }}<br>Date Modified: <br><br>Problem Statement: {{ problemStatement }}<br><br>Overall Plan:<br></p><span ng-repeat="plan in overallPlan track by $index">{{$index +1}}: {{plan}}<br></span>
+          <br>Classes and Purposes:<br>main class - {{classPurpose}}<br><br>DATA DICTIONARY:<br>---- ----------<table><tr><td>NAME</td><td>TYPE</td><td>VALUE/RANGE</td><td>DESCRIPTION</td></tr><tr><td>=====&#9;&#9;&#9;</td><td>====&#9;</td><td>============&#9;</td><td>===========</td></tr><tr ng-repeat="variable in dataDictionary | orderBy: 'name'"><td>{{ variable.name }}</td><td>{{ variable.typeDictionary }}</td><td>{{ variable.valueRange }}</td><td>{{ variable.description }}</td></tr></table><br>*/
+        </pre>
+
+
+
+        </div>
+      </section>
+
+      <script>
+                var javaGen = angular.module('javaGen',[]);
+                javaGen.controller('formCtrl', function($scope,$http) {
+
+                  $scope.stepCount = 1;
+                  $scope.chapter = "test";
+                  $scope.program = "";
+                  $scope.filename = "";
+                  $scope.author = "";
+                  $scope.problemStatement = "";
+                  $scope.stepNumber = 1;
+                  $scope.overallPlan = [];
+                  $scope.classPurpose = "";
+                  $scope.dataDictionary = [];
+                  $scope.finished = false;
+
+                  $scope.form1Submit = function() {
+                    $scope.chapter = $("input[name='chapter']").val();
+                    $scope.program = $("input[name='program']").val();
+                    $scope.filename = $("input[name='filename']").val();
+                    $scope.author = $("input[name='author']").val();
+                    $scope.problemStatement = $("input[name='problemStatement']").val();
+                    $("#form1").fadeOut();
+                    $("#overallPlan").fadeIn();
+                    $scope.stepCount++;
+                  }
+
+                  $scope.addStepToOverallPlan = function() {
+                    $("input[name='plan"+$scope.stepNumber+"']").after(
+                      "<label for='plan"+($scope.stepNumber+1)+"'>"+($scope.stepNumber+1)+": </label><input type='text'' name='plan"+($scope.stepNumber+1)+"' id='plan"+($scope.stepNumber+1)+"-input'>");
+                      $scope.stepNumber++;
+                  }
+
+                  $scope.overallPlanSubmit = function() {
+                        $("#overallPlan").fadeOut();
+                        $("#classes").fadeIn();
+                        for(var x = 1; x <= $scope.stepNumber; x++)
+                        {
+                          $scope.overallPlan.push($("input#plan"+x+"-input").val());
+                        }
+                        $scope.stepCount++;
+                  }
+
+                  $scope.classesSubmit = function() {
+                    $("#classes").fadeOut();
+                    $("#dataDictionary").fadeIn();
+                    $scope.classPurpose= $("input[name='classPurpose1']").val();
+                    $scope.stepCount++;
+                  }
+
+                  $scope.overallPlanBack = function() {
+                    $("#overallPlan").fadeOut();
+                    $("#form1").fadeIn();
+                  }
+
+                  $scope.classesBack = function() {
+                    $("#classes").fadeOut();
+                    $("#overallPlan").fadeIn();
+                  }
+
+                  $scope.dataDictionaryBack = function() {
+                    $("#dataDictionary").fadeOut();
+                    $("#classes").fadeIn();
+                  }
+
+                  $scope.dataDictionaryPush = function() {
+                    var object = {
+                      name: $("input[name='nameDictionary']").val(),
+                      typeDictionary: $("input[name='type']").val(),
+                      valueRange: $("input[name='valueRange']").val(),
+                      description: $("textarea[name='descriptionDictionary']").val()
+                    }
+                    $scope.dataDictionary.push(object);
+                    $("input[name='nameDictionary']").val("");
+                    $("input[name='type']").val("");
+                    $("input[name='valueRange']").val("");
+                    $("textarea[name='descriptionDictionary']").val("");
+                  }
+
+                  $scope.gotoResult = function() {
+                    $("#dataDictionary").fadeOut();
+                    $("#result").fadeIn();
+                    $scope.stepCount++;
+                    $scope.finished = true;
+                  }
+
+                });
+    </script>
+
+  </body>
+</html>
