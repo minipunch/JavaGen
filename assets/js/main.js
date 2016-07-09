@@ -85,12 +85,12 @@ javaGen.controller('formCtrl', function($scope,$http) {
     }
     if((8 - variable.typeDictionary.length) % 4 == 0)
     {
-      $scope.typeTabs.push(Math.floor((8- variable.typeDictionary.length) / 4));
+      $scope.typeTabs.push(Math.floor((8 - variable.typeDictionary.length) / 4));
     }
     else {
       $scope.typeTabs.push(Math.floor((8 - variable.typeDictionary.length) / 4) + 1);
     }
-    if((8 - variable.valueRange.length) % 4 == 0)
+    if((12 - variable.valueRange.length) % 4 == 0)
     {
       $scope.valueRangeTabs.push(Math.floor((12- variable.valueRange.length) / 4));
     }
@@ -147,8 +147,9 @@ javaGen.controller('formCtrl', function($scope,$http) {
       {
         displayText +="\t";
       }
-      displayText += $scope.dataDictionary[x].description + "\n*/";
+      displayText += $scope.dataDictionary[x].description + "\n";
     }
+    displayText += "*/";
     $("#resultText").text(displayText);
     $("#dataDictionary").fadeOut();
     $("#result").fadeIn();
