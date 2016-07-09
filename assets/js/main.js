@@ -74,29 +74,32 @@ javaGen.controller('formCtrl', function($scope,$http) {
       name: $("input[name='nameDictionary']").val(),
       typeDictionary: $("input[name='type']").val(),
       valueRange: $("input[name='valueRange']").val(),
-      description: $("textarea[name='descriptionDictionary']").val()
+      description: $("textarea[name='descriptionDictionary']").val(),
     }
-    if((16 - variable.name.length) % 4 == 0)
+    if((16 - variable.name.length) % 4.0 == 0)
     {
-      $scope.nameTabs.push(Math.floor((16 - variable.name.length) / 4));
+      var nameTabs = Math.floor((16 - variable.name.length) / 4);
     }
     else {
-      $scope.nameTabs.push(Math.floor((16 - variable.name.length) / 4) + 1);
+      var nameTabs = Math.floor((16 - variable.name.length) / 4) + 1;
     }
-    if((8 - variable.typeDictionary.length) % 4 == 0)
+    if((12 - variable.typeDictionary.length) % 4.0 == 0)
     {
-      $scope.typeTabs.push(Math.floor((8 - variable.typeDictionary.length) / 4));
+      var typeTabs = Math.floor((12 - variable.typeDictionary.length) / 4);
     }
     else {
-      $scope.typeTabs.push(Math.floor((8 - variable.typeDictionary.length) / 4) + 1);
+      var typeTabs = Math.floor((12 - variable.typeDictionary.length) / 4) + 1;
     }
-    if((12 - variable.valueRange.length) % 4 == 0)
+    if((16 - variable.valueRange.length) % 4.0 == 0)
     {
-      $scope.valueRangeTabs.push(Math.floor((12- variable.valueRange.length) / 4));
+      var valueRangeTabs = Math.floor((16- variable.valueRange.length) / 4);
     }
     else {
-      $scope.valueRangeTabs.push(Math.floor((12- variable.valueRange.length) / 4) + 1);
+      var valueRangeTabs = Math.floor((16- variable.valueRange.length) / 4) + 1;
     }
+    variable.nameTabs = nameTabs;
+    variable.typeTabs = typeTabs;
+    variable.valueRangeTabs = valueRangeTabs;
     $scope.dataDictionary.push(variable);
     $("input[name='nameDictionary']").val("");
     $("input[name='type']").val("");
@@ -114,7 +117,7 @@ javaGen.controller('formCtrl', function($scope,$http) {
   }
 
   $scope.gotoResult = function() {
-    $scope.dataDictionary.sort($scope.compare);
+      $scope.dataDictionary.sort($scope.compare);
     // set up the final output for the text area
     var displayText = "/* Chapter No. "+$scope.chapter+" Program No. "+$scope.program;
     displayText += "\nFile Name:\t\t\t " + $scope.filename;
@@ -128,22 +131,22 @@ javaGen.controller('formCtrl', function($scope,$http) {
     }
     displayText += "\n\nDATA DICTIONARY\n";
     displayText += "---- ---------\n";
-    displayText += "NAME\t\t\tTYPE\tVALUE/RANGE\tDESCRIPTION\n";
-    displayText += "====\t\t\t====\t==========\t==========\n";
+    displayText += "NAME\t\t\tTYPE\t\tVALUE/RANGE\t\tDESCRIPTION\n";
+    displayText += "====\t\t\t====\t\t==========\t\t==========\n";
     for(var x = 0; x < $scope.dataDictionary.length; x++)
     {
       displayText += $scope.dataDictionary[x].name;
-      for(var y = 0; y < $scope.nameTabs[x]; y++)
+      for(var y = 0; y < $scope.dataDictionary[x].nameTabs; y++)
       {
         displayText += "\t";
       }
       displayText += $scope.dataDictionary[x].typeDictionary;
-      for(var z = 0; z < $scope.typeTabs[x]; z++)
+      for(var z = 0; z < $scope.dataDictionary[x].typeTabs; z++)
       {
         displayText +="\t";
       }
       displayText += $scope.dataDictionary[x].valueRange;
-      for(var n = 0; n < $scope.valueRangeTabs[x]; n++)
+      for(var n = 0; n < $scope.dataDictionary[x].valueRangeTabs; n++)
       {
         displayText +="\t";
       }
