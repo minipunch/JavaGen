@@ -11,6 +11,7 @@
   <script src="https://use.fontawesome.com/f09e35dd59.js"></script>
   <script src="assets/js/jquery-3.0.0.min.js"></script>
   <script src="assets/js/main.js" type="text/javascript"></script>
+    <script src="assets/js/cookies.js" type="text/javascript"></script>
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="assets/css/animate.css" />
 </head>
@@ -19,6 +20,8 @@
         <h1><a href="index.html" style="text-decoration: none; color: black;">JavaGen</a></h1>
       </header>
       <section>
+        <p class="center-me" style="padding: 2em 0 0 0;" ng-show="currentUser == ''">Welcome, guest!</p>
+        <p class="center-me" style="padding: 2em 0 0 0;" ng-show="currentUser != ''">Welcome, {{ currentUser }}!</p>
         <p ng-show="stepCount < 5" class="center-me" style="padding: 2em 0;">({{stepCount}}/4) Enter details of the style sheet below: </p>
         <div class="wrapper">
 
@@ -32,14 +35,20 @@
           <label for="filename">Filename: </label>
           <input type="text" name="filename">
 
-          <label for="author">Author: </label>
-          <input type="text" name="author">
+          <label for="author" ng-show="currentUser == ''">Author: </label>
+          <input type="text" name="author" ng-show="currentUser == ''">
 
           <label for="problem">Problem Statement: </label>
           <input type="text" name="problemStatement">
 
           <input type="button" name="name" value="Next" style="margin: 2em 0;" ng-click="form1Submit()">
           <p style="color: #A0A0A0">This tool will help you get your CS4A assignments done quicker<br>by eliminating the time it takes to update old stylesheets,<br>alphabetize those pesky data dictionaries, and format.<br><br>Enjoy! :)<br>~minipunch</p>
+          <i class="fa fa-wrench fa-2x" aria-hidden="true" id="settings" ng-click="settingsClick()"></i>
+          <label for="constant1" style="display: none;margin-top:1em;">Full Name:</label>
+          <input type="text" id="settings-constant1" name="constant1" style="display: none;">
+          <input type="button" value="Save" style="display: inline-block;display: none;" id="settings-save" ng-click="settingsSaveClick()">
+          <input type="button" value="Cancel" style="display: inline-block;display: none;" id="settings-cancel" ng-click="settingsClose()">
+          <input type="button" value="Reset" style="display: inline-block;display: none;" id="settings-reset" ng-click="settingsReset()">
         </form>
 
 
@@ -84,7 +93,7 @@
 
         <code id="result" ng-show="finished">
           <textarea name="" id="resultText" cols="80" rows="20" style="margin-top: 1em;"></textarea> <!--  move to jquery -->
-          &lt;&gt; by: <a href="https://www.github.com/minipunch">minipunch</a>
+          &lt;&gt; by: <a href="https://www.github.com/minipunch">minipunch</a>. Just copy &amp; paste.
         </code>
 
         </div>

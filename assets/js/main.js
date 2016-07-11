@@ -15,6 +15,24 @@ javaGen.controller('formCtrl', function($scope,$http) {
   $scope.nameTabs = [];
   $scope.typeTabs = [];
   $scope.valueRangeTabs = [];
+  $scope.currentDate = new Date();
+
+  $scope.currentUser = "";
+
+  var userName = Cookies.get('userName');
+  if(userName != "" && userName != null)
+  {
+      $scope.currentUser = userName;
+  }
+
+  $scope.checkCookie = function() {
+    var userName = Cookies.get('userName');
+    if(userName != "" && userName != null)
+    {
+        $scope.currentUser = userName;
+        alert("Welcome "+$scope.currentUser +"!");
+    }
+  }
 
   $scope.getNumber = function(num){
     return new Array(num);
@@ -120,9 +138,16 @@ javaGen.controller('formCtrl', function($scope,$http) {
       $scope.dataDictionary.sort($scope.compare);
     // set up the final output for the text area
     var displayText = "/* Chapter No. "+$scope.chapter+" Program No. "+$scope.program;
-    displayText += "\nFile Name:\t\t\t " + $scope.filename;
-    displayText += "\nAuthor:\t\t\t\t " + $scope.author;
-    displayText += "\nDate Modified: ";
+    displayText += "\nFile Name:\t\t\t" + $scope.filename;
+    if($scope.currentUser != "")
+    {
+    displayText += "\nAuthor:\t\t\t\t" + $scope.currentUser;
+    }
+    else
+    {
+      displayText += "\nAuthor:\t\t\t\t" + $scope.author;
+    }
+    displayText += "\nDate Modified:\t\t\t" + ($scope.currentDate.getMonth()+1) + "/" + $scope.currentDate.getDate() + "/" + $scope.currentDate.getFullYear();
     displayText += "\n\nProblem Statement: " + $scope.problemStatement;
     displayText += "\n\nOverall Plan:\n";
     for(var b = 0; b < $scope.overallPlan.length; b++)
@@ -158,6 +183,47 @@ javaGen.controller('formCtrl', function($scope,$http) {
     $("#result").fadeIn();
     $scope.stepCount++;
     $scope.finished = true;
+  }
+
+  $scope.settingsClick = function() {
+    $("#settings-constant1").fadeIn();
+    $("#settings-reset").fadeIn().css("display","inline-block");
+    $("#settings-save").fadeIn().css("display","inline-block");
+    $("#settings-cancel").fadeIn().css("display","inline-block");
+    $("label[for='constant1']").fadeIn().css("display","block");
+  }
+
+  $scope.settingsSaveClick = function() {
+    var nameInput = $("#settings-constant1").val();
+    if(nameInput != "")
+    {
+      Cookies.set('userName', nameInput, { expires: 150 });
+      $scope.currentUser = nameInput;
+    }
+    else
+    {
+        alert("Constants cannot be left blank!");
+    }
+    $("#settings-constant1").fadeOut();
+    $("#settings-reset").fadeOut();
+    $("#settings-save").fadeOut();
+    $("#settings-cancel").fadeOut();
+    $("label[for='constant1']").fadeOut();
+  }
+
+  $scope.settingsClose = function() {
+    $("#settings-reset").fadeOut();
+    $("#settings-constant1").fadeOut();
+    $("#settings-save").fadeOut();
+    $("#settings-cancel").fadeOut();
+    $("#settings-constant1").val("");
+    $("label[for='constant1']").fadeOut();
+  }
+
+  $scope.settingsReset = function() {
+    Cookies.remove('userName');
+    $("#settings-constant1").val("");
+    $scope.currentUser = "";
   }
 
 });
