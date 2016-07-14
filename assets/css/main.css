@@ -167,3 +167,14 @@ margin: 1em 0;
 #settings {
 	margin-top: 1em;
 }
+
+#copyMe, #copied {
+	font-size: .9em;
+	color: gray;
+	transition: all .1s;
+}
+
+#copyMe:hover {
+	color: black;
+	cursor: pointer;
+}

@@ -47,6 +47,8 @@ javaGen.controller('formCtrl', function($scope,$http) {
     $("#form1").fadeOut();
     $("#overallPlan").fadeIn();
     $scope.stepCount++;
+    $("#p1").toggle();
+    $("#p2").toggle();
   }
 
   $scope.addStepToOverallPlan = function() {
@@ -135,6 +137,12 @@ javaGen.controller('formCtrl', function($scope,$http) {
   }
 
   $scope.gotoResult = function() {
+      if($scope.currentUser == "") {
+        $("#p3").show();
+      }
+      else {
+        $("#p3a").show();
+      }
       $scope.dataDictionary.sort($scope.compare);
     // set up the final output for the text area
     var displayText = "/* Chapter No. "+$scope.chapter+" Program No. "+$scope.program;
@@ -147,7 +155,7 @@ javaGen.controller('formCtrl', function($scope,$http) {
     {
       displayText += "\nAuthor:\t\t\t\t" + $scope.author;
     }
-    displayText += "\nDate Modified:\t\t\t" + ($scope.currentDate.getMonth()+1) + "/" + $scope.currentDate.getDate() + "/" + $scope.currentDate.getFullYear();
+    displayText += "\nDate Modified:\t\t" + ($scope.currentDate.getMonth()+1) + "/" + $scope.currentDate.getDate() + "/" + $scope.currentDate.getFullYear();
     displayText += "\n\nProblem Statement: " + $scope.problemStatement;
     displayText += "\n\nOverall Plan:\n";
     for(var b = 0; b < $scope.overallPlan.length; b++)
@@ -224,6 +232,19 @@ javaGen.controller('formCtrl', function($scope,$http) {
     Cookies.remove('userName');
     $("#settings-constant1").val("");
     $scope.currentUser = "";
+  }
+
+  $scope.copyText = function() {
+    $("#resultText").select();
+    try {
+     var successful = document.execCommand('copy');
+     var msg = successful ? 'successful' : 'unsuccessful';
+     console.log('Copying text command was ' + msg);
+   } catch (err) {
+     console.log('Oops, unable to copy');
+   }
+   $("#copyMe").hide();
+  $("#copied").show();
   }
 
 });

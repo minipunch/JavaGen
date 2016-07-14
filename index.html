@@ -20,9 +20,11 @@
         <h1><a href="index.html" style="text-decoration: none; color: black;">JavaGen</a></h1>
       </header>
       <section>
-        <p class="center-me" style="padding: 2em 0 0 0;" ng-show="currentUser == ''">Welcome, guest!</p>
-        <p class="center-me" style="padding: 2em 0 0 0;" ng-show="currentUser != ''">Welcome, {{ currentUser }}!</p>
+        <p class="center-me" style="padding: 2em 0 0 0;" ng-show="currentUser == ''" id="p1">Welcome, guest!</p>
+        <p class="center-me" style="padding: 2em 0 0 0;" ng-show="currentUser != ''" id="p2">Welcome, {{ currentUser }}!</p>
         <p ng-show="stepCount < 5" class="center-me" style="padding: 2em 0;">({{stepCount}}/4) Enter details of the style sheet below: </p>
+        <p class="center-me" style="padding: 2em 0 0 0;display: none;"  id="p3">Enjoy your style sheet!</p>
+        <p class="center-me" style="padding: 2em 0 0 0;display: none;"  id="p3a">Enjoy your style sheet, {{ currentUser }}!</p>
         <div class="wrapper">
 
         <form id="form1" class="inputStyle1">
@@ -92,8 +94,16 @@
         </form>
 
         <code id="result" ng-show="finished">
-          <textarea name="" id="resultText" cols="80" rows="20" style="margin-top: 1em;"></textarea> <!--  move to jquery -->
-          &lt;&gt; by: <a href="https://www.github.com/minipunch">minipunch</a>. Just copy &amp; paste.
+          <textarea name="" id="resultText" cols="80" rows="20" style="margin-top: 1em; border: 1px solid gray;"></textarea> <!--  move to jquery -->
+          <div id="finished-bottom">
+            <div style="display: inline-block;float:left;">&lt;&gt; by: <a href="https://www.github.com/minipunch">minipunch</a>. Just copy &amp; paste.</div>
+            <div style="display: inline-block;float:right;" id="copyMe" ng-click="copyText()">
+              COPY TO CLIPBOARD
+            </div>
+            <div style="display: inline-block;float:right;display:none;" id="copied">
+              COPIED!
+            </div>
+          </div>
         </code>
 
         </div>
