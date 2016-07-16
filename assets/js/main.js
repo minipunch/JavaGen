@@ -162,6 +162,8 @@ javaGen.controller('formCtrl', function($scope,$http) {
     {
       displayText += (b+1) + ". " + $scope.overallPlan[b] + "\n";
     }
+    displayText += "\nClasses needed and Purpose (Input, Processing, Output)\nmain class - ";
+    displayText += $scope.classPurpose + "\n";
     displayText += "\n\nDATA DICTIONARY\n";
     displayText += "---- ---------\n";
     displayText += "NAME\t\t\tTYPE\t\tVALUE/RANGE\t\tDESCRIPTION\n";
