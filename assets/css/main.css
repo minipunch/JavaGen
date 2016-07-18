@@ -66,6 +66,14 @@ h1 {
 	font-weight: 300;
 }
 
+h1>a {
+	transition: all .3s ease-in-out;
+}
+
+h1>a:hover {
+	color: #0BE081 !important;
+}
+
 h2 {
 	font-size: 2.2em;
 	margin-top: 1.5em;
@@ -177,4 +185,14 @@ margin: 1em 0;
 #copyMe:hover {
 	color: black;
 	cursor: pointer;
+}
+
+#description {
+	border-color: #0BE081;
+}
+
+.flex-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
